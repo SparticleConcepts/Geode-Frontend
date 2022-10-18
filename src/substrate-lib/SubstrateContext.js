@@ -7,6 +7,8 @@ import { keyring as Keyring } from '@polkadot/ui-keyring'
 import { isTestChain } from '@polkadot/util'
 import { TypeRegistry } from '@polkadot/types/create'
 
+
+
 import config from '../config'
 
 const parsedQuery = new URLSearchParams(window.location.search)
