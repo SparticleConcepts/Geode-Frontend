@@ -13,24 +13,19 @@ import { SubstrateContextProvider, useSubstrateState } from './substrate-lib'
 import { DeveloperConsole } from './substrate-lib/components'
 
 import AccountSelector from './AccountSelector'
-//import Balances from './Balances'
+import Balances from './Balances'
 import BlockNumber from './BlockNumber'
-import SpendPeriod from './SpendPeriod'
-import MarketPrice from './MarketPrice'
 import Events from './Events'
 import Interactor from './Interactor'
 import Metadata from './Metadata'
-import GeodeCoin from './GeodeCoin'
+import NodeInfo from './NodeInfo'
 import TemplateModule from './TemplateModule'
 import Transfer from './Transfer'
 import Upgrade from './Upgrade'
 import StakingInfo from './StakingInfo'
-import NextBurn from './NextBurn'
-import AdvertCards from './AdvertCards'
-import UserBalances from'./UserBalances'
+import StatData from './StatData'
+import ChainData from './ChainData'
 import Grandpa from './Grandpa'
-import SubmitProposal from'./SubmitProposal'
-import Council from'./Council'
 
 function Main() {
   const { apiState, apiError, keyringState } = useSubstrateState()
@@ -74,30 +69,25 @@ function Main() {
       <Container>
         <Grid stackable columns="equal">
           <Grid.Row stretched>
-            <GeodeCoin />
-            <MarketPrice />
-            <SpendPeriod finalized />
-            <NextBurn />
+            <NodeInfo />
+            <Metadata />
+            <BlockNumber />
+            <BlockNumber finalized />
+            <StakingInfo />
           </Grid.Row>
-          <Grid.Row stretched><AdvertCards /></Grid.Row>
-          <Grid.Row stretched><UserBalances /></Grid.Row>
-          <Grid.Row stretched><SubmitProposal /></Grid.Row>
-          <Grid.Row stretched><Council /></Grid.Row>
+          <Grid.Row stretched><StatData /></Grid.Row>
+          <Grid.Row stretched><ChainData /></Grid.Row>
+          <Grid.Row stretched><Grandpa /></Grid.Row>
+          <Grid.Row stretched>
+            <Balances />
+          </Grid.Row>
           <Grid.Row>
+            <Transfer />
             <Upgrade />
           </Grid.Row>
           <Grid.Row>
             <Interactor />
             <Events />
-            <Metadata />
-            <StakingInfo />
-            <BlockNumber />
-          </Grid.Row>
-          <Grid.Row>
-            <Transfer />
-          </Grid.Row>
-          <Grid.Row>
-            <Grandpa />
           </Grid.Row>
           <Grid.Row>
             <TemplateModule />
@@ -109,7 +99,7 @@ function Main() {
   )
 }
 
-export default function App() {
+export default function App_staking() {
   return (
     <SubstrateContextProvider>
       <Main />

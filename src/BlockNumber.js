@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Statistic, Grid, Card, Icon } from 'semantic-ui-react'
+import { Statistic, Grid, Card, Icon, List } from 'semantic-ui-react'
 
 import { useSubstrateState } from './substrate-lib'
 
@@ -12,6 +12,8 @@ function Main(props) {
   const bestNumber = finalized
     ? api.derive.chain.bestNumberFinalized
     : api.derive.chain.bestNumber
+
+
 
   useEffect(() => {
     let unsubscribeAll = null
@@ -47,6 +49,14 @@ function Main(props) {
             label={(finalized ? 'Finalized' : 'Current') + ' Block'}
             value={blockNumber}
           />
+            <Card.Description> 
+            <List>
+            <List.Item>⏱ Timer: {blockNumberTimer} sec</List.Item>
+            <List.Item>🔆 Geode Blocks: </List.Item>
+            <List.Item>🔆 Block Weight: {api.query.system.blockWeight} </List.Item>
+            </List>
+             </Card.Description>
+
         </Card.Content>
         <Card.Content extra>
           <Icon name="time" /> {blockNumberTimer}

@@ -63,8 +63,8 @@ function Main(props) {
       <Container>
         <Menu.Menu>
           <Image
-            src={`${process.env.PUBLIC_URL}/assets/substrate-logo.png`}
-            size="mini"
+            src={`${process.env.PUBLIC_URL}/assets/favicon.png`}
+            size="small"
           />
         </Menu.Menu>
         <Menu.Menu position="right" style={{ alignItems: 'center' }}>
@@ -87,7 +87,7 @@ function Main(props) {
               circular
               size="large"
               icon="user"
-              color={currentAccount ? 'green' : 'red'}
+              color={currentAccount ? 'blue' : 'red'}
             />
           </CopyToClipboard>
           <Dropdown
@@ -130,7 +130,7 @@ function BalanceAnnotation(props) {
 
   return currentAccount ? (
     <Label pointing="left">
-      <Icon name="money" color="green" />
+      <Icon name="money" color="blue" />
       {accountBalance}
     </Label>
   ) : null

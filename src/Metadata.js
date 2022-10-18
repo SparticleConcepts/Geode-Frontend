@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react'
-import { Grid, Modal, Button, Card } from 'semantic-ui-react'
+import { Grid, Modal, Button, Card, List } from 'semantic-ui-react'
 
 import { useSubstrateState } from './substrate-lib'
 
 function Main(props) {
   const { api } = useSubstrateState()
-  const [metadata, setMetadata] = useState({ data: null, version: null })
+  const [metadata, setMetadata] = useState({data: null, version: null })
 
   useEffect(() => {
     const getMetadata = async () => {
       try {
         const data = await api.rpc.state.getMetadata()
-        setMetadata({ data, version: data.version })
+        setMetadata({data, version: data.version })
       } catch (e) {
         console.error(e)
       }
@@ -23,10 +23,23 @@ function Main(props) {
     <Grid.Column>
       <Card>
         <Card.Content>
-          <Card.Header>Metadata</Card.Header>
+          <Card.Header>Consensus</Card.Header>
           <Card.Meta>
-            <span>v{metadata.version}</span>
-          </Card.Meta>
+            <span>Blk Consensus Information</span>
+          </Card.Meta> 
+          <Card.Description>
+            <List>
+              <List.Item>👶 Consensus Type: Babe</List.Item>
+              <List.Item>👴 Finality: Grandpa</List.Item>
+              <List.Item>⚙️ Epoch duration: {api.consts.babe.epochDuration.toNumber()}</List.Item>
+              <List.Item>⚙️ Max Authorities: {api.consts.babe.maxAuthorities.toNumber()}</List.Item>
+              <List.Item>⚙️ Expected Blk Time: {api.consts.babe.expectedBlockTime.toNumber()}</List.Item>
+              <List.Item>🙋‍♀️ No. Nominators: </List.Item>
+              <List.Item>👨‍🦲 No. Validators: </List.Item>
+              <List.Item></List.Item>
+              <List.Item>📱 Metadata version: V{metadata.version}</List.Item>
+            </List>
+          </Card.Description>
         </Card.Content>
         <Card.Content extra>
           <Modal trigger={<Button>Show Metadata</Button>}>
