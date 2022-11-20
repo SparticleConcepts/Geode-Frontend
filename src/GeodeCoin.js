@@ -13,7 +13,7 @@ function Main(props) {
   const coinName = 'gropo'; 
   const shortCoinName = 'g'
   const coinFraction ='milli-'
-  const inflationRate = 'Inflation Rate: 4.5%' ;
+  const textInflationRate = 'Inflation Rate: 4.5%' ;
   const treasuryRef = 'available from Treasury';
   const infoIcon = ' Funds collected through a portion of block production rewards, \ntransaction fees, slashing, staking inefficiencies, etc. '
   //const [freeJson, setFreeJason] = useState({});
@@ -25,7 +25,7 @@ function Main(props) {
           api.query.treasury.approvals(), 
           api.query.balances.totalIssuance(),
           api.query.system.account(treasuryAddress),
-          api.query.treasury.proposals(1)
+          api.query.treasury.proposals(3)
           //api.query.balances.account('5EYCAe5ijiYfyeZ2JJCGq56LmPyNRAKzpG4QkoQkkQNB5e6Z')
       ])
         setGeodeInfo({ proposalCount, approvals, totalIssuance, balance, proposals })
@@ -34,9 +34,11 @@ function Main(props) {
         console.error(e)
       }
     }
-
     getInfo()
   })
+// - inflation rate --
+
+// - inflation rate --
 
   const propCount = JSON.stringify(geodeInfo.proposalCount);
   const approves = geodeInfo.approvals + '\n';
@@ -105,7 +107,8 @@ try {
 }
 
 function TreasuryBalances() {
-try {  
+  const txErrorMessage ="Treasury Balance Unavailable";
+  try {  
   const freeBalance = geodeInfo.balance.data.free.toHuman(); 
   const reservedBalance = JSON.stringify(geodeInfo.balance.data.reserved); 
   const miscFrozenBalance = JSON.stringify(geodeInfo.balance.data.miscFrozen); 
@@ -121,11 +124,14 @@ try {
   )
 } catch(e) {
   console.error(e)
-  return null
+  return (
+    <div>{txErrorMessage}</div>
+  )
 }  
 }
 
 function TreasuryDescription() {
+  const txErrorMessage ="Treasury Information Unavailable";
 try {
   return (
     <div>
@@ -146,11 +152,14 @@ try {
   )
 } catch(e) {
   console.error(e)
-  return null
+  return (
+    <div>{txErrorMessage}</div>
+  )
 }
 }
 
 function StakingDescription() {
+  const txErrorMessage ="Staking Information Unavailable";
   try {
     return (
       <div>
@@ -166,8 +175,10 @@ function StakingDescription() {
     )
   } catch(e) {
     console.error(e)
-    return null
-  }
+    return (
+      <div>{txErrorMessage}</div>
+    )
+    }
 }
 
   return (
@@ -176,10 +187,10 @@ function StakingDescription() {
         <Card.Content>
         <Card.Meta>
         <Modal trigger={<Icon link name="info circle" />}>
-                    <Modal.Header>Information - Available Geode in Treasury</Modal.Header>
+                    <Modal.Header>Information - Available {coinName} in Treasury</Modal.Header>
                     <Modal.Content scrolling wrapped="true">
                     <Modal.Description>                   
-                           <Label color='teal'> Available Geode - Treasury</Label>  <br></br>                           
+                           <Label color='teal'> Treasury in {coinName} </Label>  <br></br>                           
                            {infoIcon} <br></br><br></br>
                            💰 Treasury Address: <strong>{treasuryAddress.toString()} </strong><br></br>
                            <br></br>
@@ -203,7 +214,7 @@ function StakingDescription() {
           <PercentTotalIssue />
           </Card.Description>
         </Card.Content>
-        <Label >{inflationRate}</Label>
+        <Label >{textInflationRate}</Label>
         <Card.Content extra>
         <List>
         <List.Item>{totalMint}</List.Item>
