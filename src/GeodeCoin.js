@@ -13,22 +13,28 @@ function Main(props) {
   const coinName = 'gropo'; 
   const shortCoinName = 'g'
   const coinFraction ='milli-'
-  const textInflationRate = 'Inflation Rate: 4.5%' ;
   const treasuryRef = 'available from Treasury';
   const infoIcon = ' Funds collected through a portion of block production rewards, \ntransaction fees, slashing, staking inefficiencies, etc. '
   //const [freeJson, setFreeJason] = useState({});
   useEffect(() => {
     const getInfo = async () => {
       try {
-        const [proposalCount, approvals, totalIssuance, balance, proposals] = await Promise.all([
+        const [proposalCount, 
+               approvals, 
+               totalIssuance, 
+               balance, 
+               proposals,
+               activeEra
+              ] = await Promise.all([
           api.query.treasury.proposalCount(),
           api.query.treasury.approvals(), 
           api.query.balances.totalIssuance(),
           api.query.system.account(treasuryAddress),
-          api.query.treasury.proposals(3)
+          api.query.treasury.proposals(1),
+          api.query.staking.activeEra()
           //api.query.balances.account('5EYCAe5ijiYfyeZ2JJCGq56LmPyNRAKzpG4QkoQkkQNB5e6Z')
       ])
-        setGeodeInfo({ proposalCount, approvals, totalIssuance, balance, proposals })
+        setGeodeInfo({ proposalCount, approvals, totalIssuance, balance, proposals, activeEra })
         
       } catch (e) {
         console.error(e)
@@ -37,8 +43,48 @@ function Main(props) {
     getInfo()
   })
 // - inflation rate --
+  const testJSON = JSON.stringify({"index":271,"start":1668976344010});
+  const [activeEraLast, setActiveEraLast] = useState(testJSON);
+  const [totalIssuanceLast, setTotalIssuanceLast] = useState(2203502338698);
+  const [rateOfInflation, setRateOfInflation] = useState(2.5);
 
-// - inflation rate --
+function Inflation() {
+  let inflationRate = 2.5//rateOfInflation(); 
+  let eraNow = 999; // 
+  let eraLast = 999; //
+  let issuanceNow = 9999; //
+  let issuanceLast = 9999; //
+
+  try {
+     const newEraJSON = JSON.parse(geodeInfo.activeEra);
+     const lastEraJSON = JSON.parse(activeEraLast);
+    //newEraJSON = {"index":271,"start":1668976344010} 
+    //lastEraJSON = {"index":270,"start":1668976344000}
+
+    issuanceNow = String(geodeInfo.totalIssuance);
+    issuanceLast = String(totalIssuanceLast);       
+    eraNow = newEraJSON.index;
+    eraLast = lastEraJSON.index;
+    if (eraNow > eraLast) {
+      inflationRate = ((issuanceNow * 52560) / issuanceLast);
+      setRateOfInflation(inflationRate);
+      setActiveEraLast( geodeInfo.activeEra );   
+      setTotalIssuanceLast( issuanceNow ); 
+    } else {
+      inflationRate = rateOfInflation();
+    }
+  } catch(e) {
+     console.error(e)
+  }
+return (
+    <>
+      Era: {eraNow}  Inflation Rate: {inflationRate}%  <br></br>
+      Era Last: {eraLast} Inflation: {rateOfInflation} <br></br>
+      Iss Now: {issuanceNow} <br></br>
+      Iss Last: {issuanceLast}
+    </>
+  )
+}  
 
   const propCount = JSON.stringify(geodeInfo.proposalCount);
   const approves = geodeInfo.approvals + '\n';
@@ -65,9 +111,10 @@ function PercentTotalIssue() {
 // Formats for JSON data --
 // propData = {"proposer":"5ECBkFwiqyQ6PJLMbcfTrRkGfijm9y1LgXc1vWPwTce3tpjE","value":"0x00000000000000000de0b6b3a7640000","beneficiary":"5DFBnZ5oHDxQbvf8vE8LjGHB4y272VmaF7DuqBR81qZFkkJM","bond":"0x000000000000000000b1a2bc2ec50000"}
 // JSONdata = {"nonce":0,"consumers":0,"providers":1,"sufficients":0,"data":{"free":"0x000000000000000036ad1f87299cb7da","reserved":0,"miscFrozen":0,"feeFrozen":0}};
-const txstrOne = "Proposed";
-const txstrTwo = "Bonded";
-const txErrorMessage ="Data Unavailable";
+  const txstrOne = "Proposed";
+  const txstrTwo = "Bonded";
+  const txErrorMessage ="Data Unavailable";
+
 try {
     const propData=JSON.parse(geodeInfo.proposals);
     const JSONdata=JSON.parse(geodeInfo.balance);
@@ -150,12 +197,12 @@ try {
     <br></br>
     </div>
   )
-} catch(e) {
-  console.error(e)
-  return (
+  } catch(e) {
+    console.error(e)
+    return (
     <div>{txErrorMessage}</div>
-  )
-}
+    )
+  }
 }
 
 function StakingDescription() {
@@ -178,7 +225,7 @@ function StakingDescription() {
     return (
       <div>{txErrorMessage}</div>
     )
-    }
+  }
 }
 
   return (
@@ -214,7 +261,7 @@ function StakingDescription() {
           <PercentTotalIssue />
           </Card.Description>
         </Card.Content>
-        <Label >{textInflationRate}</Label>
+        <Label ><Inflation /></Label>
         <Card.Content extra>
         <List>
         <List.Item>{totalMint}</List.Item>
