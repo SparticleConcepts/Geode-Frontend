@@ -1,31 +1,32 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Label, Icon, Modal, Card, Grid, List, Statistic } from 'semantic-ui-react'
+import { Table, Button, Label, Icon, Modal, Card, Grid, List, Statistic } from 'semantic-ui-react'
 
 import { useSubstrateState } from './substrate-lib'
+
+// href for Stripe to buy coin - enable on MainNet ONLY!  --- href="https://buy.stripe.com/28o3cUdjL1NLfkY14c">Buy</Button>          
 
 
 function Main(props) {
   const { api } = useSubstrateState()
-//  const [marketInfo, setMarketInfo] = useState({})
 
   const currentCoinPrice = '$1.00';
-  const weeklyChange = '3.00 %';
+  const lowTrend = '$0.99';
+  const highTrend = '$1.01';
+  const weeklyChange = '0.00 %';
   const weeklyTrend = ' ▲ ';
-  const coinRef = 'per geode'
+  const coinName = "GROPO";
   const infoIcon ='Current Coin market value in USD.\n '
   const infoBuyGeode = '💰 Coming Soon! 💰 '
 
   const { finalized } = props
   const [blockNumber, setBlockNumber] = useState(0)
-  const [blockNumberTimer, setBlockNumberTimer] = useState(0)
+  const [blockNumberTimer, setBlockNumberTimer] = useState(0);
 
   const priceTrend = ['Lowest Price in 7-Days', 'Average Price for 7-Days', 'Highest Price in 7-Days']
   const bestNumber = finalized
     ? api.derive.chain.bestNumberFinalized
     : api.derive.chain.bestNumber
-
-
-
+  
   useEffect(() => {
     let unsubscribeAll = null
 
@@ -51,63 +52,76 @@ function Main(props) {
     return () => clearInterval(id)
   }, [])
 
+function TokenInformation() {
+  // integrate react-vis here
+  return (
+    <div>
+      <Table>
+        <Table.Row>
+        Token Graphic in Version 2.0
+        {infoBuyGeode} <br></br>
+        </Table.Row>
+      </Table>
+    {infoIcon} <br></br>
+    </div>
+  )
+}
 
+function TradeCoin() {
+  return(
+    <div>
+      <Table>
+        <Table.Row>
+          <Table.Cell >
+          <List.Item> 🔹 Weekly change: <strong>{weeklyTrend} {weeklyChange}</strong></List.Item>
+          <List.Item> 🔹 Lowest: <strong>{lowTrend} </strong></List.Item>
+          <List.Item> 🔹 Highest: <strong>{highTrend} </strong></List.Item>
+          <List textAlign="center">
+          </List>
+           <Button 
+              size='tiny' 
+              color='teal' 
+              circular active
+              href="https://blockandpurpose.com/">Buy</Button>
+           <br></br>
+		      </Table.Cell>
+        </Table.Row>
+      </Table>
+  </div>
+  )
+}
   return (
     <Grid.Column>
       <Card color='teal'>
         <Card.Content>
         <Card.Meta>
-            <span> Current Price of Geode </span>
             <Modal trigger={<Icon link name="info circle" />}>
-                    <Modal.Header>Information - Current price of Geode</Modal.Header>
-                    <Modal.Content scrolling wrapped>
+                    <Modal.Header>Information - Current price of {coinName}</Modal.Header>
+                    <Modal.Content scrolling wrapped="true">
                     <Modal.Description>
-                    <pre>
-                           <code>                             
-                           {infoIcon} <br></br>
-                            </code>
-                    </pre>
+                    <TokenInformation />
                     </Modal.Description>
                     </Modal.Content>
                 </Modal>
+                <span> Current Price of {coinName} </span><Icon color='teal' name='money bill alternate' />
 
           </Card.Meta>
           <Card.Header> 
           <Statistic size='tiny'>
                 <Statistic.Label></Statistic.Label>
                 <Statistic.Value>{currentCoinPrice}</Statistic.Value>
-                </Statistic>        
-               </Card.Header>
-            {coinRef}
+          </Statistic>        
+          </Card.Header>
+            per {coinName}
           <Card.Description> 
-          <List.Item><strong> Weekly change: {weeklyTrend} {weeklyChange}</strong></List.Item>
-          <List textAlign="center">
-        </List>
+          <TradeCoin />
              </Card.Description>
-             
-
-             <Modal trigger={<Button size='tiny' color='teal' circular='true' active>Buy Geode</Button>}>
-                    <Modal.Header>Buy Geode!</Modal.Header>
-                    <Modal.Content scrolling wrapped>
-                    <Modal.Description>
-                    <pre>
-                           <code>                             
-                           {infoBuyGeode} <br></br>
-                            </code>
-                    </pre>
-                    </Modal.Description>
-                    </Modal.Content>
-                </Modal>
-
-
-
         </Card.Content>
-        <Label Basic ><weak>{priceTrend[0]}</weak></Label>
+        <Label basic >{priceTrend[0]}</Label>
         <Card.Content extra>
         <List>
-            
             <List.Item>🌀 Best Block: {blockNumber} </List.Item>
-            <List.Item>⏱ Block Time: {blockNumberTimer}</List.Item>
+            <List.Item>⏱ Block Time: {blockNumberTimer} sec</List.Item>
             </List>
         </Card.Content>
       </Card>
@@ -121,6 +135,6 @@ export default function BlockNumber(props) {
       api.derive.chain &&
       api.derive.chain.bestNumber &&
       api.derive.chain.bestNumberFinalized ? (
-      <Main {...props} />
+      <Main {...props} /> 
     ) : null
   }

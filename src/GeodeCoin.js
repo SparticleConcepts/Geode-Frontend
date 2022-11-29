@@ -10,8 +10,8 @@ function Main(props) {
   const treasuryAddress = encodeAddress(stringToU8a("modlpy/trsry".padEnd(32, '\0')))
   const { api } = useSubstrateState()
   const [geodeInfo, setGeodeInfo] = useState({})
-  const coinName = 'gropo'; 
-  const shortCoinName = 'g'
+  let coinName = 'coin'; 
+  let shortCoinName = 'u';
   const coinFraction ='milli-'
   const treasuryRef = 'available from Treasury';
   const infoIcon = ' Funds collected through a portion of block production rewards, \ntransaction fees, slashing, staking inefficiencies, etc. '
@@ -24,18 +24,25 @@ function Main(props) {
                totalIssuance, 
                balance, 
                proposals,
-               activeEra
+               activeEra,
+               chain
               ] = await Promise.all([
           api.query.treasury.proposalCount(),
           api.query.treasury.approvals(), 
           api.query.balances.totalIssuance(),
           api.query.system.account(treasuryAddress),
           api.query.treasury.proposals(1),
-          api.query.staking.activeEra()
+          api.query.staking.activeEra(),
+          api.rpc.system.chain()
           //api.query.balances.account('5EYCAe5ijiYfyeZ2JJCGq56LmPyNRAKzpG4QkoQkkQNB5e6Z')
       ])
-        setGeodeInfo({ proposalCount, approvals, totalIssuance, balance, proposals, activeEra })
-        
+        setGeodeInfo({ proposalCount, 
+                       approvals, 
+                       totalIssuance, 
+                       balance, 
+                       proposals, 
+                       activeEra,
+                       chain })
       } catch (e) {
         console.error(e)
       }
@@ -43,10 +50,11 @@ function Main(props) {
     getInfo()
   })
 // - inflation rate --
-  const testJSON = JSON.stringify({"index":271,"start":1668976344010});
+  const testJSON = JSON.stringify({"index":312,"start":1668976344010});
   const [activeEraLast, setActiveEraLast] = useState(testJSON);
-  const [totalIssuanceLast, setTotalIssuanceLast] = useState(2203502338698);
+  const [totalIssuanceLast, setTotalIssuanceLast] = useState(2203755829371);
   const [rateOfInflation, setRateOfInflation] = useState(2.5);
+  const showDetail = false;
 
 function Inflation() {
   let inflationRate = 2.5//rateOfInflation(); 
@@ -54,44 +62,68 @@ function Inflation() {
   let eraLast = 999; //
   let issuanceNow = 9999; //
   let issuanceLast = 9999; //
-
+  let eraStart = 0;
   try {
      const newEraJSON = JSON.parse(geodeInfo.activeEra);
      const lastEraJSON = JSON.parse(activeEraLast);
     //newEraJSON = {"index":271,"start":1668976344010} 
     //lastEraJSON = {"index":270,"start":1668976344000}
 
-    issuanceNow = String(geodeInfo.totalIssuance);
+    issuanceNow = String(geodeInfo.totalIssuance)/1000000000;
     issuanceLast = String(totalIssuanceLast);       
     eraNow = newEraJSON.index;
     eraLast = lastEraJSON.index;
-    if (eraNow > eraLast) {
-      inflationRate = ((issuanceNow * 52560) / issuanceLast);
+    eraStart = newEraJSON.start;
+    if (eraNow > eraLast + 10) {
+      inflationRate = .0000000000001 * 8760 * (issuanceNow%issuanceLast);
       setRateOfInflation(inflationRate);
       setActiveEraLast( geodeInfo.activeEra );   
       setTotalIssuanceLast( issuanceNow ); 
     } else {
-      inflationRate = rateOfInflation();
+      inflationRate = rateOfInflation;
     }
   } catch(e) {
      console.error(e)
   }
-return (
-    <>
-      Era: {eraNow}  Inflation Rate: {inflationRate}%  <br></br>
-      Era Last: {eraLast} Inflation: {rateOfInflation} <br></br>
-      Iss Now: {issuanceNow} <br></br>
-      Iss Last: {issuanceLast}
-    </>
-  )
-}  
+  if (showDetail) {
+    return (
+          <>
+          Era: {eraNow}  <br></br>
+          Era Start: {eraStart} <br></br>
+          Inflation: {rateOfInflation}%  <br></br>
+          Stored: {rateOfInflation} <br></br>
+          Iss Now: {issuanceNow} {shortCoinName}<br></br>
+          Iss Last: {issuanceLast} {shortCoinName}
+          </>)
+  }  else {
+    return (
+      <>
+      Era: {eraNow} Inflation Rate: {rateOfInflation.toString().substring(0, 5)}%  <br></br>
+      </>)
+  }
+}
 
   const propCount = JSON.stringify(geodeInfo.proposalCount);
   const approves = geodeInfo.approvals + '\n';
-  const totalIssue = geodeInfo.totalIssuance + '\n'; //'12000000000000000' 
-  
+  const totalIssue = geodeInfo.totalIssuance + '\n'; //'12000000000000000'   
   const assetsMintedInB =    totalIssue/1000000000000000000 ;
   const totalMint =  '💰 Minted: ' + assetsMintedInB + 'B';
+
+  function Token() {
+    try {
+      coinName = String(geodeInfo.chain)
+      shortCoinName = coinName.substring(0,1).toLowerCase();
+    } catch(e) {
+      console.error(e)
+      coinName = 'Unit';
+      shortCoinName = 'u';
+    }
+    return (
+      <>
+        {coinName}
+      </>
+    )
+  }  
 
 function TotalTreasury() {
   let freeBalance = 0 
@@ -99,10 +131,11 @@ function TotalTreasury() {
     freeBalance = geodeInfo.balance.data.free.toHuman().substring(0,5);
   } catch(e) {
     console.error(e)
+    freeBalance = 0;
   }
   return (
     <div>
-      {freeBalance} K {coinName} <br></br>
+      {freeBalance} K <Token /><br></br>
     </div>
   )
 }  
@@ -137,9 +170,9 @@ try {
 		      </Table.Cell>
           <Table.Cell>
           <Label ribbon color='teal' style={{ width: 100}}>{txstrOne}</Label> <br></br>
-            <strong> {intTotalProposals + shortCoinName} </strong><br></br>
+            {intTotalProposals + shortCoinName} <br></br><br></br>
           <Label ribbon color='blue' style={{ width: 100}}>{txstrTwo}  </Label> <br></br>
-			      <strong>{intTotalBond + shortCoinName}</strong><br></br>
+			      {intTotalBond + shortCoinName}<br></br>
 		        </Table.Cell>
         </Table.Row>
       </Table>
@@ -280,7 +313,8 @@ export default function GeodeCoin(props) {
   api.query.treasury.proposalCount &&
   api.query.treasury.approvals &&
   api.query.balances.totalIssuance &&
-  api.query.balances.account ? (
+  api.query.balances.account &&
+  api.rpc.system.chain ? (
     <Main {...props} />
   ) : null
 }
