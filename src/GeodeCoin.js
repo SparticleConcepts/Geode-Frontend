@@ -107,7 +107,7 @@ function Inflation() {
   const approves = geodeInfo.approvals + '\n';
   const totalIssue = geodeInfo.totalIssuance + '\n'; //'12000000000000000'   
   const assetsMintedInB =    totalIssue/1000000000000000000 ;
-  const totalMint =  '💰 Minted: ' + assetsMintedInB + 'B';
+  const totalMint = assetsMintedInB + 'B';
 
   function Token() {
     try {
@@ -297,8 +297,8 @@ function StakingDescription() {
         <Label ><Inflation /></Label>
         <Card.Content extra>
         <List>
-        <List.Item>{totalMint}</List.Item>
-        <List.Item>🌀 No. of Proposals: {propCount} </List.Item>
+        <List.Item><Icon name="edit" /> No. of Proposals: {propCount} </List.Item>
+        <List.Item><Icon name="money bill alternate outline" /> Minted: {totalMint}</List.Item>
         </List>
         </Card.Content>
       </Card>
@@ -318,3 +318,4 @@ export default function GeodeCoin(props) {
     <Main {...props} />
   ) : null
 }
+

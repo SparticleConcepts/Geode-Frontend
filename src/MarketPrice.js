@@ -73,9 +73,9 @@ function TradeCoin() {
       <Table>
         <Table.Row>
           <Table.Cell >
-          <List.Item> 🔹 Weekly change: <strong>{weeklyTrend} {weeklyChange}</strong></List.Item>
-          <List.Item> 🔹 Lowest: <strong>{lowTrend} </strong></List.Item>
-          <List.Item> 🔹 Highest: <strong>{highTrend} </strong></List.Item>
+          <List.Item> <Icon name="toggle on" /> Weekly change: <strong>{weeklyTrend} {weeklyChange}</strong></List.Item>
+          <List.Item> <Icon name="toggle on" /> Lowest: <strong>{lowTrend} </strong></List.Item>
+          <List.Item> <Icon name="toggle on" /> Highest: <strong>{highTrend} </strong></List.Item>
           <List textAlign="center">
           </List>
            <Button 
@@ -120,8 +120,8 @@ function TradeCoin() {
         <Label basic >{priceTrend[0]}</Label>
         <Card.Content extra>
         <List>
-            <List.Item>🌀 Best Block: {blockNumber} </List.Item>
-            <List.Item>⏱ Block Time: {blockNumberTimer} sec</List.Item>
+            <List.Item><Icon name="clone" /> Best Block: {blockNumber} </List.Item>
+            <List.Item><Icon name="clock outline" /> Block Time: {blockNumberTimer} sec</List.Item>
             </List>
         </Card.Content>
       </Card>

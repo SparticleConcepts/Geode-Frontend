@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { Table, Label, Statistic, Grid, Card, Icon, List, Modal } from 'semantic-ui-react'
 import { useSubstrateState } from './substrate-lib'
 import { CircularProgressbar } from 'react-circular-progressbar';
@@ -11,12 +11,13 @@ function Main(props) {
   const [blockNumber, setBlockNumber] = useState(0)
   const [blockNumberTimer, setBlockNumberTimer] = useState(0)
   const unitsOfTime = 'day(s)'
-  const [daysRemaining, setDaysRemaining] = useState(0);
+  const daysRemaining = useRef('0')
+  // const [daysRemaining, setDaysRemaining] = useState(0);
   
   const weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
   const month = ["January","February","March","April","May","June","July","August","September","October","November","December"];
   
-  const d = new Date(Date.now() + 1000 * 60 * 60 * 24 * daysRemaining);
+  const d = new Date(Date.now() + 1000 * 60 * 60 * 24 * daysRemaining.current);
   let day = weekday[d.getDay()] + ', ' + d.getDate() + ' ' + month[d.getMonth()];
 
   const bestNumber = finalized
@@ -88,16 +89,17 @@ function Main(props) {
   let blockFraction = Math.trunc(100 - (100 * (totalSpendBlocks - (blockNumber % totalSpendBlocks))/totalSpendBlocks));
   const blocksLeftInSpendPeriod = totalSpendBlocks - (blockNumber % totalSpendBlocks);
   const minRemaining = blocksLeftInSpendPeriod/10;
-  setDaysRemaining((minRemaining/1440).toString().substring(0,5));
-  
+  //setDaysRemaining((minRemaining/1440).toString().substring(0,5));
+  daysRemaining.current = (minRemaining/1440).toString().substring(0,5);
+
   return(
         <div>
           <Table>
             <Table.Row>
               <Table.Cell >
-                    🔹 Block Remain: <strong>{blocksLeftInSpendPeriod} of {totalSpendBlocks}</strong><br></br>
-                    🔹 Time Remain: <strong> {minRemaining} min</strong><br></br>
-                    🔹 % Period Elapsed
+              <Icon name="toggle on" /> Block Remain: <strong>{blocksLeftInSpendPeriod}/{totalSpendBlocks}</strong><br></br>
+              <Icon name="toggle on" /> Time Remain: <strong> {minRemaining} min</strong><br></br>
+              <Icon name="toggle on" /> % Period Elapsed
                     <div style={{ width: 50, height: 50 }}>
                         <CircularProgressbar value={blockFraction} text= {`${blockFraction}%`} strokeWidth={12}/>
                     </div>
@@ -133,18 +135,18 @@ function Main(props) {
           <Card.Header> 
           <Statistic size='tiny'>
                 <Statistic.Label></Statistic.Label>
-                <Statistic.Value>{(1 - daysRemaining).toString().substring(0,5)} {unitsOfTime} </Statistic.Value>
+                <Statistic.Value>{(1 - daysRemaining.current).toString().substring(0,5)} {unitsOfTime} </Statistic.Value>
                 </Statistic>        
                </Card.Header>
-               {daysRemaining} {unitsOfTime} remaining
+               {daysRemaining.current} {unitsOfTime} remaining
             <Card.Description>   
             <PercentOfPeriod />      
              </Card.Description>
         </Card.Content>
-        <Label basic >⏱ Period Ends: {day} </Label>
+        <Label basic > Period Ends: {day} </Label>
         <Card.Content extra>
             <List>
-            <List.Item>🔆 Finalized Block: {blockNumber}</List.Item>
+            <List.Item><Icon name="clone outline" /> Finalized Block: {blockNumber}</List.Item>
             <List.Item><Icon name="time" /> Timer: {blockNumberTimer} sec</List.Item>
             </List>
         </Card.Content>

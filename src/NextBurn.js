@@ -105,9 +105,9 @@ function Main(props) {
             <Table>
               <Table.Row>
                 <Table.Cell >
-                      🔹 Spendable: <strong>{treasuryBalance} M <Token /> </strong><br></br>
-                      🔹 Available: <strong>{treasuryBalance} M <Token /> </strong><br></br>
-                      🔹 % Burn of Treasury
+                <Icon name="toggle on" /> Spendable: <strong>{treasuryBalance} M <Token /> </strong><br></br>
+                <Icon name="toggle on" /> Available: <strong>{treasuryBalance} M <Token /> </strong><br></br>
+                <Icon name="toggle on" /> % Burn of Treasury
                       <div style={{ width: 50, height: 50 }}>
                           <CircularProgressbar value={burnPercent} text= {`${burnPercent}%`} strokeWidth={12}/>
                       </div>
@@ -138,8 +138,8 @@ function Main(props) {
           prevEra.current = currentEra;
           return (
             <>
-              % Ideal Staked: {idealStaked} <br></br>
-              % Staked: {stakedPercent}% @ Era: {currentEra} <br></br>
+              <Icon name="percent" /> Ideal Staked: {idealStaked} <br></br>
+              <Icon name="percent" /> Staked: {stakedPercent}% @ Era: {currentEra} <br></br>
             </>
           )
           } catch(e) {
@@ -156,14 +156,14 @@ function Main(props) {
     return(
       <>
       <strong><Icon name="info circle" />Next Burn Information: </strong><br></br>
-      <Icon name="toggle on" /> Next Burn: {infoIcon} <br></br>
-      <Icon name="toggle on" /> Next Burn Total: Total to be burned after the spend period. <br></br>
-      <Icon name="toggle on" /> Spendable: Total amount in Treasury that is spendable. <br></br>
-      <Icon name="toggle on" /> Available: Total amount in Treasury that is available for use. <br></br>
-      <Icon name="toggle on" /> % Burn of Treasury: The percent of the Treasury that will burned at each spend period. <br></br>
-      <Icon name="toggle on" /> After Burn: The amount left in Treasury after the current period is completed.<br></br>
-      <Icon name="toggle on" /> % Ideal Staked: Ideal Amount staked in the system. Total Staked / Total Issuance <br></br>
-      <Icon name="toggle on" /> % Staked: The current ammount in the Era staked. Total Staked / Total Issuance <br></br>
+      🔹 Next Burn: {infoIcon} <br></br>
+      🔹 Next Burn Total: Total to be burned after the spend period. <br></br>
+      🔹 Spendable: Total amount in Treasury that is spendable. <br></br>
+      🔹 Available: Total amount in Treasury that is available for use. <br></br>
+      🔹 % Burn of Treasury: The percent of the Treasury that will burned at each spend period. <br></br>
+      🔹 After Burn: The amount left in Treasury after the current period is completed.<br></br>
+      🔹 % Ideal Staked: Ideal Amount staked in the system. Total Staked / Total Issuance <br></br>
+      🔹 % Staked: The current ammount in the Era staked. Total Staked / Total Issuance <br></br>
       </>
     )
   }
