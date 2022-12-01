@@ -1,12 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Grid, Segment, Label, Button, Modal, Table, Icon, Feed, Card, List } from 'semantic-ui-react'
-
-
 import '@natscale/react-calendar/dist/main.css';
-
 import { useSubstrateState } from './substrate-lib'
-
-//import React, { useState, useCallback } from 'react';
 import { Calendar } from '@natscale/react-calendar';
 
 function Main(props) {
@@ -28,6 +23,41 @@ function Main(props) {
     },
     [setValue],
   );
+
+  const isHighlight = useCallback((date) => {
+    // highlight any data that is divisible by 5
+    if (date.getDate() % 5 === 0) {
+      return true;
+    }
+  }, []);
+
+  //api.query.staking.activeEra
+  //{"index":513,"start":1669847544002}
+  //api.rpc.system.syncState
+  //{"startingBlock":307383,"currentBlock":308068,"highestBlock":null}
+  function ShowTimeStamp() {
+    const errorMessage = 'Not Available';
+    let currentTimestamp = Date.now()
+    try {
+      currentTimestamp = statData.timeStamp.toString()
+//      console.log(currentTimestamp); // get current timestamp
+      const theDate = new Intl.DateTimeFormat('en-US', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' }).format(currentTimestamp)
+      return (
+        <>
+          <Icon name="clock" /> Today: {theDate} <br></br>
+        </>
+      )
+      } catch(e) {
+      console.error(e)
+      return (
+        <>
+          {errorMessage}<br></br>
+        </>
+      )}
+}  
+
+  //end time stamp
+
 
   function setToFirst() {
     setEventCount(1)
@@ -58,27 +88,27 @@ function Main(props) {
   useEffect(() => {
      const getInfo = async () => {
       try {
-        const [chain, nodeName, nodeVersion ] = await Promise.all([
+        const [chain, syncState, timeStamp ] = await Promise.all([
           api.rpc.system.chain(),
-          api.rpc.system.name(),
-          api.rpc.system.version(),
+          api.rpc.system.syncState(),
+          api.query.timestamp.now(),
         ])
-        setStatData({ chain, nodeName, nodeVersion })
+        setStatData({ chain, syncState, timeStamp })
       } catch (e) {
         console.error(e)
       }
     }
     getInfo()
-  }, [api.rpc.system])
+  }, [api.rpc.system, api.query.timestamp])
   return (
     
     <Card.Group itemsPerRow={2}>
-    <Card scroll>
+    <Card scroll="true">
         <Card.Content>
           <Card.Header>
           <Modal trigger={<Icon link name="info circle" />}>
                     <Modal.Header>Information - Schedule</Modal.Header>
-                    <Modal.Content scrolling wrapped>
+                    <Modal.Content scrolling wrapped="true">
                     <Modal.Description>
                            <strong>Description: </strong>{infoSchedule} <br></br>
                            <br></br>
@@ -86,10 +116,10 @@ function Main(props) {
                     </Modal.Content>
                     </Modal>        
 
-          Schedule 
+          Schedule <ShowTimeStamp />
           </Card.Header>
           <Card.Meta>
-            <span> {statData.nodeName}: {advertTitle1} {value}</span>
+            <span>  {advertTitle1} {value}</span>
           </Card.Meta>
           <Card.Description> 
           
@@ -97,10 +127,13 @@ function Main(props) {
             <Table.Row>
             <Table.Cell>
           <div>
-
-          <Calendar onChange={setDate} value={date} />
+          
+          <Calendar 
+              startOfWeek={0} 
+              isHighlight={isHighlight} 
+              onChange={setDate} 
+              value={date} />
             </div>
-
              </Table.Cell>
 
           <Table.Cell>     
@@ -153,14 +186,14 @@ function Main(props) {
     <Table.Cell > 
       <Label color='orange'>{eventCount}</Label>
 
-      <Button size='mini' color='teal' floated='left' circular icon='step backward'
+      <Button size='mini' color='teal' floated='left' circular='true' icon='step backward'
               onClick={setToFirst}></Button> 
 
-      <Button size='mini' color='teal' floated='left' circular icon='angle left'
+      <Button size='mini' color='teal' floated='left' circular='true' icon='angle left'
               onClick={decEventCount}></Button> 
-      <Button size='mini' color='teal' floated='left' circular icon='angle right'
+      <Button size='mini' color='teal' floated='left' circular='true' icon='angle right'
               onClick={incEventCount}></Button> 
-      <Button size='mini' color='teal' floated='left' circular icon='step forward'
+      <Button size='mini' color='teal' floated='left' circular='true' icon='step forward'
               onClick={setToLast}></Button> 
     </Table.Cell>
     </Table.Row>
@@ -184,7 +217,7 @@ function Main(props) {
 
           <Modal trigger={<Icon link name="info circle" />}>
                     <Modal.Header>Information - Geode News Feed</Modal.Header>
-                    <Modal.Content scrolling wrapped>
+                    <Modal.Content scrolling wrapped="true">
                     <Modal.Description>
                            <strong>Description: </strong>{infoSchedule} <br></br>
                            <br></br>
@@ -215,12 +248,7 @@ function Main(props) {
       <Feed.Content>
         <Feed.Date>3 days ago</Feed.Date>
         <Feed.Summary>
-          Geode News <a>from Amy M.</a> to your <a>Geode</a> News group.<br></br>
-            <a>May 11th 2022, 10:00:00 pm</a> <br></br>
-            Execute named scheduled task auctlp0<br></br>
-            <a>May 13th 2022, 3:00:00 am</a><br></br>
-            Election of new council candidates<br></br>
-            <a>May 12th 2022, 9:00:00 pm</a><br></br>
+          Geode News 
             Voting ends on council motion 0x5db3…9cad<br></br>
             </Feed.Summary>
       </Feed.Content>
@@ -232,14 +260,7 @@ function Main(props) {
       <Feed.Content>
         <Feed.Date>1 day ago</Feed.Date>
         <Feed.Summary>
-          Geode News <a>from Amy M.</a> to your <a>Geode</a> News group.<br></br>
-            <a>May 19th 2022, 3:00:00 am</a><br></br>
-            Start of next spending period<br></br>
-            <a>May 27th 2022, 3:00:00 am</a><br></br>
-            Start of the next referendum voting period<br></br>
-            <a>June 4th 2022, 3:00:00 am</a><br></br>
-            Start of the next parachain lease period 8<br></br>
-            <a>June 28th 2022, 10:00:00 pm</a><br></br>
+          Geode News 
             Execute named scheduled task auctlp09<br></br>
             </Feed.Summary>
       </Feed.Content>
@@ -251,14 +272,7 @@ function Main(props) {
       <Feed.Content>
         <Feed.Date>3 hours ago</Feed.Date>
         <Feed.Summary>
-          Geode News <a>from Amy M.</a> to your <a>Geode</a> News group.<br></br>
-            <a>September 20th 2022, 10:00:00 pm</a><br></br>
-            Execute named scheduled task auctlp10<br></br>
-            <a>December 13th 2022, 9:00:00 pm</a><br></br>
-            Execute named scheduled task auctlp11<br></br>
-            <a>June 29th 2022, 8:00:00 pm</a><br></br>
-            Deadline for onchain proposal #99<br></br>
-            <a>August 29th 2022, 8:00:00 pm</a><br></br>
+          Geode News 
             Deadline for onchain proposal #131<br></br>
             </Feed.Summary>
       </Feed.Content>
