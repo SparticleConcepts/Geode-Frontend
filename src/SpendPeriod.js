@@ -88,7 +88,7 @@ function Main(props) {
   const totalSpendBlocks = 1 * spendPeriod;
   let blockFraction = Math.trunc(100 - (100 * (totalSpendBlocks - (blockNumber % totalSpendBlocks))/totalSpendBlocks));
   const blocksLeftInSpendPeriod = totalSpendBlocks - (blockNumber % totalSpendBlocks);
-  const minRemaining = blocksLeftInSpendPeriod/10;
+  const minRemaining = 6 * blocksLeftInSpendPeriod / 3600;
   //setDaysRemaining((minRemaining/1440).toString().substring(0,5));
   daysRemaining.current = (minRemaining/1440).toString().substring(0,5);
 
@@ -97,8 +97,8 @@ function Main(props) {
           <Table>
             <Table.Row>
               <Table.Cell >
-              <Icon name="toggle on" /> Block Remain: <strong>{blocksLeftInSpendPeriod}/{totalSpendBlocks}</strong><br></br>
-              <Icon name="toggle on" /> Time Remain: <strong> {minRemaining} min</strong><br></br>
+              <Icon name="toggle on" /> Blocks Remain: <strong>{blocksLeftInSpendPeriod}</strong><br></br>
+              <Icon name="toggle on" /> Time Remain: <strong> {minRemaining.toString().substring(0,5)} min</strong><br></br>
               <Icon name="toggle on" /> % Period Elapsed
                     <div style={{ width: 50, height: 50 }}>
                         <CircularProgressbar value={blockFraction} text= {`${blockFraction}%`} strokeWidth={12}/>
