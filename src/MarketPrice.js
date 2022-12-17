@@ -73,9 +73,9 @@ function TradeCoin() {
       <Table>
         <Table.Row>
           <Table.Cell >
-          <List.Item> <Icon name="toggle on" /> Weekly change: <strong>{weeklyTrend} {weeklyChange}</strong></List.Item>
-          <List.Item> <Icon name="toggle on" /> Lowest: <strong>{lowTrend} </strong></List.Item>
-          <List.Item> <Icon name="toggle on" /> Highest: <strong>{highTrend} </strong></List.Item>
+          <List.Item> <Icon name="calendar outline" /> Weekly change: <strong>{weeklyTrend} {weeklyChange}</strong></List.Item>
+          <List.Item> <Icon name="adjust" /> Lowest: <strong>{lowTrend} </strong></List.Item>
+          <List.Item> <Icon name="adjust" /> Highest: <strong>{highTrend} </strong></List.Item>
           <List textAlign="center">
           </List>
            <Button 

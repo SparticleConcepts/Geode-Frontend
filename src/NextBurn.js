@@ -105,9 +105,9 @@ function Main(props) {
             <Table>
               <Table.Row>
                 <Table.Cell >
-                <Icon name="toggle on" /> Spendable: <strong>{treasuryBalance} M <Token /> </strong><br></br>
-                <Icon name="toggle on" /> Available: <strong>{treasuryBalance} M <Token /> </strong><br></br>
-                <Icon name="toggle on" /> % Burn of Treasury
+                <Icon name="info circle" /> Spendable: <strong>{treasuryBalance} M <Token /> </strong><br></br>
+                <Icon name="adjust" /> Available: <strong>{treasuryBalance} M <Token /> </strong><br></br>
+                <Icon name="percent" /> Burn of Treasury
                       <div style={{ width: 50, height: 50 }}>
                           <CircularProgressbar value={burnPercent} text= {`${burnPercent}%`} strokeWidth={12}/>
                       </div>

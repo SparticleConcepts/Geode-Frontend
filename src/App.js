@@ -14,23 +14,26 @@ import { DeveloperConsole } from './substrate-lib/components'
 
 import AccountSelector from './AccountSelector'
 //import Balances from './Balances'
-import BlockNumber from './BlockNumber'
+//import BlockNumber from './BlockNumber'
 import SpendPeriod from './SpendPeriod'
 import MarketPrice from './MarketPrice'
 import Events from './Events'
 import Interactor from './Interactor'
-import Metadata from './Metadata'
+//import Metadata from './Metadata'
 import GeodeCoin from './GeodeCoin'
 import TemplateModule from './TemplateModule'
 import Transfer from './Transfer'
 import Upgrade from './Upgrade'
-import StakingInfo from './StakingInfo'
+//import StakingInfo from './StakingInfo'
 import NextBurn from './NextBurn'
+//import StatData from './StatData'
 import AdvertCards from './AdvertCards'
-import UserBalances from'./UserBalances'
-import Grandpa from './Grandpa'
+import UserBalances from './UserBalances'
+import Council from './Council'
+//import ChainData from './ChainData'
+//import Grandpa from './Grandpa'
+//import LatestActivity from'./LatestActivity'
 import SubmitProposal from'./SubmitProposal'
-import Council from'./Council'
 
 function Main() {
   const { apiState, apiError, keyringState } = useSubstrateState()
@@ -83,21 +86,13 @@ function Main() {
           <Grid.Row stretched><UserBalances /></Grid.Row>
           <Grid.Row stretched><SubmitProposal /></Grid.Row>
           <Grid.Row stretched><Council /></Grid.Row>
+          <Grid.Row stretched><Transfer /></Grid.Row>
           <Grid.Row>
             <Upgrade />
           </Grid.Row>
           <Grid.Row>
             <Interactor />
             <Events />
-            <Metadata />
-            <StakingInfo />
-            <BlockNumber />
-          </Grid.Row>
-          <Grid.Row>
-            <Transfer />
-          </Grid.Row>
-          <Grid.Row>
-            <Grandpa />
           </Grid.Row>
           <Grid.Row>
             <TemplateModule />

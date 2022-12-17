@@ -7,22 +7,22 @@ import { TxButton } from './substrate-lib/components'
 
 export default function Main(props) {
 //test array - remove for production
-let dataArray = [
-    { id: '0001', name: 'alice  ', type: 'member   ', yourVote: '👍 Yay',  totalVotes: '10', voteBlock: '1001'},
-    { id: '0002', name: 'bob    ', type: 'member   ', yourVote: '👎 Nay',  totalVotes: '1', voteBlock: '1001'},
-    { id: '0003', name: 'charlie', type: 'member   ', yourVote: '👍 Yay',  totalVotes: '3', voteBlock: '1001'},
-    { id: '0004', name: 'dave   ', type: 'member   ', yourVote: '👍 Yay',  totalVotes: '2', voteBlock: '1001'},
-    { id: '0005', name: 'eve    ', type: 'member   ', yourVote: '👍 Yay',  totalVotes: '6', voteBlock: '1001'},
-    { id: '0006', name: 'ferdie ', type: 'member   ', yourVote: '👎 Nay',  totalVotes: '5', voteBlock: '1001'},
-    { id: '0007', name: 'gus    ', type: 'member   ', yourVote: '👎 Nay',  totalVotes: '7', voteBlock: '1001'},
-    { id: '0008', name: 'gropo  ', type: 'runner up', yourVote: '👍 Yay',  totalVotes: '3', voteBlock: '1001'},
-    { id: '0009', name: 'monkey ', type: 'runner up', yourVote: '👍 Yay',  totalVotes: '5', voteBlock: '1001'},
-    { id: '0010', name: 'moose  ', type: 'runner up', yourVote: '👍 Yay',  totalVotes: '9', voteBlock: '1001'},
-    { id: '0011', name: 'goose  ', type: 'runner up', yourVote: '👍 Yay',  totalVotes: '10', voteBlock: '1001'},
-    { id: '0012', name: 'amy    ', type: 'runner up', yourVote: '👍 Yay',  totalVotes: '12', voteBlock: '1001'},
-    { id: '0013', name: 'nala   ', type: 'runner up', yourVote: '👍 Yay',  totalVotes: '14', voteBlock: '1001'},
-    { id: '0014', name: 'max    ', type: 'runner up', yourVote: '👍 Yay',  totalVotes: '15', voteBlock: '1001'},
-  ];
+// let dataArray = [
+//     { id: '0001', name: 'alice  ', type: 'member   ', yourVote: '👍 Yay',  totalVotes: '10', voteBlock: '1001'},
+//     { id: '0002', name: 'bob    ', type: 'member   ', yourVote: '👎 Nay',  totalVotes: '1', voteBlock: '1001'},
+//     { id: '0003', name: 'charlie', type: 'member   ', yourVote: '👍 Yay',  totalVotes: '3', voteBlock: '1001'},
+//     { id: '0004', name: 'dave   ', type: 'member   ', yourVote: '👍 Yay',  totalVotes: '2', voteBlock: '1001'},
+//     { id: '0005', name: 'eve    ', type: 'member   ', yourVote: '👍 Yay',  totalVotes: '6', voteBlock: '1001'},
+//     { id: '0006', name: 'ferdie ', type: 'member   ', yourVote: '👎 Nay',  totalVotes: '5', voteBlock: '1001'},
+//     { id: '0007', name: 'gus    ', type: 'member   ', yourVote: '👎 Nay',  totalVotes: '7', voteBlock: '1001'},
+//     { id: '0008', name: 'gropo  ', type: 'runner up', yourVote: '👍 Yay',  totalVotes: '3', voteBlock: '1001'},
+//     { id: '0009', name: 'monkey ', type: 'runner up', yourVote: '👍 Yay',  totalVotes: '5', voteBlock: '1001'},
+//     { id: '0010', name: 'moose  ', type: 'runner up', yourVote: '👍 Yay',  totalVotes: '9', voteBlock: '1001'},
+//     { id: '0011', name: 'goose  ', type: 'runner up', yourVote: '👍 Yay',  totalVotes: '10', voteBlock: '1001'},
+//     { id: '0012', name: 'amy    ', type: 'runner up', yourVote: '👍 Yay',  totalVotes: '12', voteBlock: '1001'},
+//     { id: '0013', name: 'nala   ', type: 'runner up', yourVote: '👍 Yay',  totalVotes: '14', voteBlock: '1001'},
+//     { id: '0014', name: 'max    ', type: 'runner up', yourVote: '👍 Yay',  totalVotes: '15', voteBlock: '1001'},
+//   ];
   
 const coinName = ' Geode';
     //transfers
@@ -34,7 +34,7 @@ const coinName = ' Geode';
   
     const { addressTo, amount } = formState
 
-    const [voteArray, setVoteArray] = useState({})
+ //   const [voteArray, setVoteArray] = useState({})
 //transfers  
   const infoBalances ='The Substrate Balances pallet managers user funds for accounts. Use this user interface to \n(1) view the distribution of account balances, \n(2) transfer funds between accounts'
   const infoName ='This is the Public Key Address for the account. ';
@@ -90,7 +90,7 @@ const coinName = ' Geode';
           {}
         )
         setBalances(balancesMap)
-        setVoteArray(dataArray)
+        //setVoteArray(dataArray)
       })
       .then(unsub => {
         unsubscribeAll = unsub
@@ -109,6 +109,7 @@ const coinName = ' Geode';
     })
     })
 
+  //  setVoteArray(dataArray)
 
   return (
     <Grid.Column>
@@ -439,7 +440,7 @@ const coinName = ' Geode';
                 </Table.Cell>
                 <Table.Cell width={4}>
                   {//balances && balances[account.address] && balances[account.address]
-                  voteArray.yourVote}
+                  }
                 </Table.Cell>
                 <Table.Cell width={4}>
                   {balances &&

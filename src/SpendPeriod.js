@@ -97,9 +97,9 @@ function Main(props) {
           <Table>
             <Table.Row>
               <Table.Cell >
-              <Icon name="toggle on" /> Blocks Remain: <strong>{blocksLeftInSpendPeriod}</strong><br></br>
-              <Icon name="toggle on" /> Time Remain: <strong> {minRemaining.toString().substring(0,5)} min</strong><br></br>
-              <Icon name="toggle on" /> % Period Elapsed
+              <Icon name="clone outline" /> Blocks Remain: <strong>{blocksLeftInSpendPeriod}</strong><br></br>
+              <Icon name="clock outline" /> Time Remain: <strong> {minRemaining.toString().substring(0,5)} min</strong><br></br>
+              <Icon name="percent" /> Period Elapsed
                     <div style={{ width: 50, height: 50 }}>
                         <CircularProgressbar value={blockFraction} text= {`${blockFraction}%`} strokeWidth={12}/>
                     </div>

@@ -40,9 +40,9 @@ function Main(props) {
   );
 
   const isHighlight = useCallback((date) => {
-    if (date.getDate() % 7 === 0 ) {
-        return true;
-     } 
+    // if (date.getDate() % 7 === 0 ) {
+    //     return true;
+    //  } 
     }, []);
 
   try {
@@ -109,61 +109,61 @@ function Main(props) {
 
     return(
       <>
-      🔹 Time Stamp Now: <strong>{timeStampNow}</strong><br></br>
-      🔹 Current Block Number: <strong>#{blkNumber} </strong><br></br>
-      🔹 Days Chain in Operation: <strong>{(noOfOpDays).toString().substring(0,7)}</strong> Days <br></br>
-      🔹 Chain Start Date: <strong>{chainStartDate}</strong><br></br>
-      🔹 Chain Start Time Stamp: <strong>{timeStampChainStart.toString()}</strong><br></br>     
+      • Time Stamp Now: <strong>{timeStampNow}</strong><br></br>
+      • Current Block Number: <strong>#{blkNumber} </strong><br></br>
+      • Days Chain in Operation: <strong>{(noOfOpDays).toString().substring(0,7)}</strong> Days <br></br>
+      • Chain Start Date: <strong>{chainStartDate}</strong><br></br>
+      • Chain Start Time Stamp: <strong>{timeStampChainStart.toString()}</strong><br></br>     
       <br></br>
       <strong>Treasury Spend Period:</strong><br></br>
-      🔹 Spend Period: <strong>#{blkSpendPeriod.current} </strong>blocks <br></br>
-      🔹 Duration of Treasury Spend Period: <strong>{blockTime * blkSpendPeriod.current / secToHrs} Hrs</strong><br></br>
-      🔹 Time Remianing in this Treasury Spend Period: <strong>{(1 * blockTime * blksRemainSpendPeriod / secToHrs).toString().substring(0,7)}</strong> Hrs<br></br>
-      🔹 Number Of Spend Periods Completed: <strong>{(Math.floor(blkNumber / blkSpendPeriod.current)).toString()}</strong><br></br>
-      🔹 Next Spend Period Date and Time: <strong>{nextSpendDate}</strong><br></br>
-      🔹 Next Spend Period Time Stamp: <strong>{timeStpNextSpend}</strong><br></br>
-      🔹 Blocks left in Current Spend Period: <strong> #{blksRemainSpendPeriod.toString()}</strong> of <strong>#{blkSpendPeriod.current}</strong><br></br>
+      • Spend Period: <strong>#{blkSpendPeriod.current} </strong>blocks <br></br>
+      • Duration of Treasury Spend Period: <strong>{blockTime * blkSpendPeriod.current / secToHrs} Hrs</strong><br></br>
+      • Time Remianing in this Treasury Spend Period: <strong>{(1 * blockTime * blksRemainSpendPeriod / secToHrs).toString().substring(0,7)}</strong> Hrs<br></br>
+      • Number Of Spend Periods Completed: <strong>{(Math.floor(blkNumber / blkSpendPeriod.current)).toString()}</strong><br></br>
+      • Next Spend Period Date and Time: <strong>{nextSpendDate}</strong><br></br>
+      • Next Spend Period Time Stamp: <strong>{timeStpNextSpend}</strong><br></br>
+      • Blocks left in Current Spend Period: <strong> #{blksRemainSpendPeriod.toString()}</strong> of <strong>#{blkSpendPeriod.current}</strong><br></br>
       <br></br>
       <strong>Eras Details:</strong><br></br>
-      🔹 Number of Blocks in an Era: <strong>#{eraBlocks.toString()}</strong><br></br>
-      🔹 Duration of an Era: <strong>{(blockTime * eraBlocks / 60).toString()}</strong> Min <br></br>     
+      • Number of Blocks in an Era: <strong>#{eraBlocks.toString()}</strong><br></br>
+      • Duration of an Era: <strong>{(blockTime * eraBlocks / 60).toString()}</strong> Min <br></br>     
       <br></br>
       <strong>The Current Era:</strong><br></br>
-      🔹 Current Era: <strong>{eraIndex}</strong><br></br>
-      🔹 Current Era Time Stamp: <strong>{eraStart}</strong><br></br>
-      🔹 Current Era Start Date and Time: <strong>{thisEraDate}</strong> <br></br>
-      🔹 At Block Number: <strong>#{blkThisEraStart.toString()}</strong><br></br>
+      • Current Era: <strong>{eraIndex}</strong><br></br>
+      • Current Era Time Stamp: <strong>{eraStart}</strong><br></br>
+      • Current Era Start Date and Time: <strong>{thisEraDate}</strong> <br></br>
+      • At Block Number: <strong>#{blkThisEraStart.toString()}</strong><br></br>
       <br></br>
       <strong>The Next Era:</strong><br></br>
-      🔹 Next Era: <strong>{1 * eraIndex + 1}</strong><br></br>
-      🔹 Next Era Time Stamp: <strong>{timeStampNextEra}</strong><br></br> 
-      🔹 Next Era Start Date and Time: <strong>{nextEraDate}</strong><br></br>
-      🔹 Next Era Block Number: <strong>#{blkAtNextEra}</strong> <br></br>   
+      • Next Era: <strong>{1 * eraIndex + 1}</strong><br></br>
+      • Next Era Time Stamp: <strong>{timeStampNextEra}</strong><br></br> 
+      • Next Era Start Date and Time: <strong>{nextEraDate}</strong><br></br>
+      • Next Era Block Number: <strong>#{blkAtNextEra}</strong> <br></br>   
 
       <br></br>
       <strong>Council Elections: </strong> <br></br>
-      🔹 Elections Term Duration (How long each seat is kept): <strong>#{blkTermDuration.current} </strong> blocks or 
+      • Elections Term Duration (How long each seat is kept): <strong>#{blkTermDuration.current} </strong> blocks or 
          <strong>{noOfDaysElections}</strong> Days <br></br>
-      🔹 Number of Election Cycles Completed: <strong>{noOfElections}</strong><br></br>
-      🔹 Current Term Started on: <strong> {thisElectionStart.toString()}</strong><br></br>
-      🔹 At Block Number: <strong>#{blkThisElection.toString()}</strong><br></br>
-      🔹 Next Election starts at Block: <strong>#{blkNextElection}</strong> <br></br>
-      🔹 Next Election on: <strong>{nextElectionFormat}</strong><br></br>
-      🔹 Next Election Time Stamp: <strong>{nextElectionTimeStamp}</strong><br></br>
-      🔹 Next Election in Days: <strong>{nextElectionDays}</strong> Days<br></br>
+      • Number of Election Cycles Completed: <strong>{noOfElections}</strong><br></br>
+      • Current Term Started on: <strong> {thisElectionStart.toString()}</strong><br></br>
+      • At Block Number: <strong>#{blkThisElection.toString()}</strong><br></br>
+      • Next Election starts at Block: <strong>#{blkNextElection}</strong> <br></br>
+      • Next Election on: <strong>{nextElectionFormat}</strong><br></br>
+      • Next Election Time Stamp: <strong>{nextElectionTimeStamp}</strong><br></br>
+      • Next Election in Days: <strong>{nextElectionDays}</strong> Days<br></br>
       <br></br>
       <strong>Referendum Voting</strong><br></br>
-      🔹 Current Referendum Started on: <strong>{thisReferendumStart}</strong><br></br>
-      🔹 At Block Number: <strong>{blkReferendum}</strong><br></br>
-      🔹 Referendum Launch Period: <strong>#{blkLaunchPeriod.current} </strong>blocks <br></br>
-      🔹 Referendum Enactment Period: <strong>#{blkEnactmentPeriod.current} </strong>blocks <br></br>
-      🔹 Next Referendum Starts on: <strong>{nextReferendumStart}</strong><br></br>
-      🔹 Next Referendum at Block: # <strong>{blkNextReferendum.toString()}</strong><br></br>
+      • Current Referendum Started on: <strong>{thisReferendumStart}</strong><br></br>
+      • At Block Number: <strong>{blkReferendum}</strong><br></br>
+      • Referendum Launch Period: <strong>#{blkLaunchPeriod.current} </strong>blocks <br></br>
+      • Referendum Enactment Period: <strong>#{blkEnactmentPeriod.current} </strong>blocks <br></br>
+      • Next Referendum Starts on: <strong>{nextReferendumStart}</strong><br></br>
+      • Next Referendum at Block: # <strong>{blkNextReferendum.toString()}</strong><br></br>
       <br></br>
       <strong>Referendum Enachment</strong> i.e when the Referendum is Implemented:<br></br>
-      🔹 Current Referendum Implementation Date: <strong>{thisRefImplementation}</strong><br></br>
-      🔹 Current Referendum Implementation Block: <strong>{blkRefImplementation}</strong><br></br>
-      🔹 <strong>{':(>)'}</strong><br></br>
+      • Current Referendum Implementation Date: <strong>{thisRefImplementation}</strong><br></br>
+      • Current Referendum Implementation Block: <strong>{blkRefImplementation}</strong><br></br>
+      • <strong>{':(>)'}</strong><br></br>
       </>
     )
   }
