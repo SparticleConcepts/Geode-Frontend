@@ -14,26 +14,24 @@ import { DeveloperConsole } from './substrate-lib/components'
 
 import AccountSelector from './AccountSelector'
 //import Balances from './Balances'
-//import BlockNumber from './BlockNumber'
-import SpendPeriod from './SpendPeriod'
-import MarketPrice from './MarketPrice'
+import BlockNumber from './BlockNumber'
 import Events from './Events'
 import Interactor from './Interactor'
 //import Metadata from './Metadata'
-import GeodeCoin from './GeodeCoin'
+import NodeInfo from './NodeInfo'
 import TemplateModule from './TemplateModule'
-import Transfer from './Transfer'
-import Upgrade from './Upgrade'
-//import StakingInfo from './StakingInfo'
-import NextBurn from './NextBurn'
-//import StatData from './StatData'
-import AdvertCards from './AdvertCards'
-import UserBalances from './UserBalances'
-import Council from './Council'
-//import ChainData from './ChainData'
-//import Grandpa from './Grandpa'
-//import LatestActivity from'./LatestActivity'
-import SubmitProposal from'./SubmitProposal'
+//import Transfer from './Transfer'
+//import Upgrade from './Upgrade'
+import CardToken from './CardToken'
+import CardMarket from './CardMarket'
+import CardSpend from './CardSpend'
+import CardNextBurn from './CardNextBurn'
+import PanelBalances from './PanelBalances'
+import PanelProposals from './PanelProposals'
+//import PanelCouncil from './PanelCouncil'
+//import PanelTips from './PanelTips'
+//import PanelReferendum from './PanelReferendum'
+import CardTokenTwo from './CardTokenTwo'
 
 function Main() {
   const { apiState, apiError, keyringState } = useSubstrateState()
@@ -77,18 +75,19 @@ function Main() {
       <Container>
         <Grid stackable columns="equal">
           <Grid.Row stretched>
-            <GeodeCoin />
-            <MarketPrice />
-            <SpendPeriod finalized />
-            <NextBurn />
+            <CardToken />
+            <CardMarket />
+            <CardSpend />
+            <CardNextBurn />
           </Grid.Row>
-          <Grid.Row stretched><AdvertCards /></Grid.Row>
-          <Grid.Row stretched><UserBalances /></Grid.Row>
-          <Grid.Row stretched><SubmitProposal /></Grid.Row>
-          <Grid.Row stretched><Council /></Grid.Row>
-          <Grid.Row stretched><Transfer /></Grid.Row>
-          <Grid.Row>
-            <Upgrade />
+          <Grid.Row stretched><PanelBalances /></Grid.Row>
+          <Grid.Row stretched><PanelProposals/></Grid.Row>
+          <Grid.Row stretched></Grid.Row>
+          <Grid.Row stretched>
+          <CardTokenTwo />  
+            <NodeInfo />          
+            <BlockNumber />
+            <BlockNumber finalized />
           </Grid.Row>
           <Grid.Row>
             <Interactor />
